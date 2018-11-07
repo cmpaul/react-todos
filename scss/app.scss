@@ -1,0 +1,42 @@
+body {
+  padding: 40px;
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      font-size: 40px;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+  }
+
+  .todo-list {
+    max-width: 600px;
+  }
+
+  .todo-item {
+    font-size: 18px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .todo-item-control {
+      display: flex;
+      align-items: baseline;
+
+      .icon {
+        margin-right: 10px;
+      }
+
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+
+      label.done {
+        text-decoration: line-through;
+      }
+    }
+  }
+}
