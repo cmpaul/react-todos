@@ -9,7 +9,7 @@ import { toggleTodo, deleteTodo } from "../actions";
 
 const TodoList = ({ todos, onToggle, onDelete }) => (
   <div className="todo-list container">
-    <TodoHeader items={todos} />
+    <TodoHeader todos={todos} />
     <TodoForm />
     <div>
       {todos.map(todo => (
