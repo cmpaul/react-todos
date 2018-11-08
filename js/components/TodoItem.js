@@ -9,7 +9,7 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
           style={{ textDecoration: todo.completed ? "line-through" : "none" }}
         >
           <input type="checkbox" checked={todo.completed} onChange={onToggle} />
-          {todo.text}
+          {todo.priority} - {todo.text}
         </label>
       </div>
     </div>

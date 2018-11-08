@@ -4,6 +4,17 @@ import { addTodo } from "../actions";
 
 const TodoForm = ({ dispatch }) => {
   let input;
+  let priorityInput;
+
+  const onSubmit = () => {
+    let priorityVal;
+    if (priorityInput.value !== "") {
+      priorityVal = parseInt(priorityInput.value, 10);
+    }
+    dispatch(addTodo(input.value, priorityVal));
+    input.value = "";
+    priorityInput.value = "";
+  };
 
   return (
     <div className="level">
@@ -17,21 +28,23 @@ const TodoForm = ({ dispatch }) => {
             type="text"
             placeholder="What needs to be done?"
             onKeyPress={e => {
-              if (e.key === "Enter") {
-                dispatch(addTodo(input.value));
-                input.value = "";
-              }
+              if (e.key !== "Enter") return;
+              onSubmit();
             }}
           />
         </div>
         <div className="control">
-          <a
-            className="button is-info"
-            onClick={() => {
-              dispatch(addTodo(input.value));
-              input.value = "";
+          <input
+            ref={node => {
+              priorityInput = node;
             }}
-          >
+            className="input"
+            type="number"
+            placeholder="Priority (1)"
+          />
+        </div>
+        <div className="control">
+          <a className="button is-info" onClick={() => onSubmit()}>
             Add
           </a>
         </div>

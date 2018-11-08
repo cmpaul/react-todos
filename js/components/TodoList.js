@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import TodoHeader from "./TodoHeader";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
+import TodoPriorityList from "./TodoPriorityList";
 
 import { toggleTodo, deleteTodo } from "../actions";
 
@@ -21,6 +22,7 @@ const TodoList = ({ todos, onToggle, onDelete }) => (
         />
       ))}
     </div>
+    <TodoPriorityList todos={todos} />
   </div>
 );
 
