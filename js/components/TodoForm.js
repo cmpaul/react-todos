@@ -16,6 +16,12 @@ const TodoForm = ({ dispatch }) => {
             className="input"
             type="text"
             placeholder="What needs to be done?"
+            onKeyPress={e => {
+              if (e.key === "Enter") {
+                dispatch(addTodo(input.value));
+                input.value = "";
+              }
+            }}
           />
         </div>
         <div className="control">

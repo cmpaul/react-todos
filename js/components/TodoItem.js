@@ -6,15 +6,9 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
       <a className="delete is-small is-pulled-right" onClick={onDelete} />
       <div className="todo-item-control">
         <label
-          style={{
-            textDecoration: todo.completed ? "line-through" : "none"
-          }}
-          onClick={onToggle}
+          style={{ textDecoration: todo.completed ? "line-through" : "none" }}
         >
-          <input
-            type="checkbox"
-            defaultChecked={todo.completed} // TODO: Do we still need this?
-          />
+          <input type="checkbox" checked={todo.completed} onChange={onToggle} />
           {todo.text}
         </label>
       </div>

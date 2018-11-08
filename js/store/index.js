@@ -25,8 +25,8 @@ const todos = (state = [], action) => {
       return [...state, todo(undefined, action)];
     case "DELETE_TODO":
       return state.filter(t => t.id !== action.id);
-    // case "TOGGLE_TODO":
-    //   return state.map(t => todo(t, action));
+    case "TOGGLE_TODO":
+      return state.map(t => todo(t, action));
     default:
       return state;
   }
