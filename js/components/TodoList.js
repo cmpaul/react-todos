@@ -1,73 +1,57 @@
 import React from "react";
+import { connect } from "react-redux";
+
 import TodoHeader from "./TodoHeader";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
 
-class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
+import { toggleTodo, deleteTodo } from "../actions";
 
-    this.state = {
-      items: []
-    };
+const TodoList = ({ todos, onToggle, onDelete }) => (
+  <div className="todo-list container">
+    <TodoHeader items={todos} />
+    <TodoForm />
+    <div>
+      {todos.map(todo => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={() => onToggle(todo.id)}
+          onDelete={() => onDelete(todo.id)}
+        />
+      ))}
+    </div>
+  </div>
+);
 
-    this.addNewItem = this.addNewItem.bind(this);
-    this.toggleItem = this.toggleItem.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case "SHOW_ALL":
+      return todos;
+    case "SHOW_COMPLETED":
+      return todos.filter(t => t.completed);
+    case "SHOW_ACTIVE":
+      return todos.filter(t => !t.completed);
   }
+};
 
-  addNewItem(text) {
-    this.setState(state => ({
-      items: state.items.concat({
-        isDone: false,
-        text: text
-      })
-    }));
-  }
+const mapStateToProps = state => {
+  return {
+    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggle: id => {
+      dispatch(toggleTodo(id));
+    },
+    onDelete: id => {
+      dispatch(deleteTodo(id));
+    }
+  };
+};
 
-  toggleItem(i) {
-    this.setState(state => ({
-      items: state.items.map((item, index) => {
-        if (index === i) item.isDone = !item.isDone;
-        return item;
-      })
-    }));
-  }
-
-  deleteItem(i) {
-    this.setState(state => ({
-      items: state.items
-        .slice(0, i)
-        .concat(state.items.slice(i + 1, state.length))
-    }));
-  }
-
-  render() {
-    // Count how many items have been completed
-    const itemsDone = this.state.items.reduce(
-      (acc, item) => acc + (item.done ? 1 : 0),
-      0
-    );
-
-    return (
-      <div className="todo-list container">
-        <TodoHeader items={this.state.items} />
-        <TodoForm onSubmit={this.addNewItem} />
-        <div>
-          {this.state.items.map((item, i) => (
-            <TodoItem
-              key={i}
-              index={i}
-              isDone={item.isDone}
-              text={item.text}
-              onDone={this.toggleItem}
-              onDelete={this.deleteItem}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-}
-
-export default TodoList;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);
