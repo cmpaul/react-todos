@@ -1,53 +1,43 @@
 import React from "react";
+import { connect } from "react-redux";
+import { addTodo } from "../actions";
 
-class TodoForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      newTodo: ""
-    };
+const TodoForm = ({ dispatch }) => {
+  let input;
 
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onChange(e) {
-    e.preventDefault();
-    this.setState({ newTodo: e.target.value });
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-    this.props.onSubmit(this.state.newTodo);
-    this.setState({
-      newTodo: ""
-    });
-  }
-
-  render() {
-    return (
-      <div className="level">
-        <form style={{ width: "100%" }} onSubmit={this.onSubmit}>
-          <div className="field has-addons">
-            <div className="control" style={{ width: "100%" }}>
-              <input
-                className="input"
-                type="text"
-                placeholder="What needs to be done?"
-                onChange={this.onChange}
-                value={this.state.newTodo}
-              />
-            </div>
-            <div className="control">
-              <a className="button is-info" onClick={this.onSubmit}>
-                Add
-              </a>
-            </div>
-          </div>
-        </form>
+  return (
+    <div className="level">
+      <div className="field has-addons" style={{ width: "100%" }}>
+        <div className="control" style={{ width: "100%" }}>
+          <input
+            ref={node => {
+              input = node;
+            }}
+            className="input"
+            type="text"
+            placeholder="What needs to be done?"
+            onKeyPress={e => {
+              if (e.key === "Enter") {
+                dispatch(addTodo(input.value));
+                input.value = "";
+              }
+            }}
+          />
+        </div>
+        <div className="control">
+          <a
+            className="button is-info"
+            onClick={() => {
+              dispatch(addTodo(input.value));
+              input.value = "";
+            }}
+          >
+            Add
+          </a>
+        </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default TodoForm;
+export default connect()(TodoForm);
